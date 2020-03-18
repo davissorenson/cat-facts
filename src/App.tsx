@@ -1,21 +1,25 @@
 import React from "react"
 
+import Fact from "./interfaces/Fact"
+import { CatFact } from "./components/CatFact"
+
+const dummyFacts: Partial<Fact>[] = [
+  {
+    text: "Dummy cat fact 1"
+  },
+  {
+    text: "Dummy cat fact 2"
+  }
+]
+
 function App(): JSX.Element {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ul>
+        {dummyFacts.map((fact, i) => (
+          <CatFact key={i} {...fact} />
+        ))}
+      </ul>
     </div>
   )
 }
