@@ -17,10 +17,15 @@ module.exports = {
   ],
   rules: {
     semi: "off",
-    // typescript uses semicolons in places like interface definitions
     "@typescript-eslint/semi": ["error", "never"],
     quotes: ["error", "double", { allowTemplateLiterals: true }],
     "max-len": ["error", { code: 120 }],
+    // the preferred interface member delimiter in TS is a semicolon, but prettier doesn't like that
+    "@typescript-eslint/member-delimiter-style": {
+      multiline: {
+        delimiter: "none"
+      }
+    },
     "prettier/prettier": "error"
   }
 }
