@@ -26,11 +26,17 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
     }
   }
 
+  componentDidMount() {
+    this.fetchFacts()
+  }
+
   fetchFacts = (): void => {
     // the cat facts API does not send the CORS header (Access-Control-Allow-Origin: *) that would
     // allow us to query it directly. instead, we put it through a CORS proxy. the real fix would be
     // to add that header to the server response, but I would rather use a proxy for this demo app
     // than spin up a free heroku dyno.
+    this.setState({ facts: [] })
+
     axios
       .get<CatFactsResponse>(
         "https://cors-anywhere.herokuapp.com/https://cat-fact.herokuapp.com/facts"
@@ -52,6 +58,7 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
           })
         }
       })
+      .catch(reason => console.log(reason))
   }
 
   render(): JSX.Element {
