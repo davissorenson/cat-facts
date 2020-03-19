@@ -3,6 +3,7 @@ import axios from "axios"
 
 import Fact from "./interfaces/Fact"
 import { CatFact } from "./components/CatFact"
+import { Spinner } from "./components/Spinner"
 
 interface CatFactsResponse {
   all: Fact[]
@@ -16,19 +17,27 @@ interface CatFactsProps {
 interface CatFactsState {
   facts: Fact[]
   error?: string
+  muted: boolean
 }
 
 class App extends React.Component<CatFactsProps, CatFactsState> {
+  private audio = new Audio("/batman.ogg")
+
   constructor(props: CatFactsProps) {
     super(props)
 
     this.state = {
-      facts: []
+      facts: [],
+      muted: false
     }
   }
 
   componentDidMount() {
     this.fetchFacts()
+  }
+
+  toggleMute = (): void => {
+    this.setState({ muted: !this.state.muted })
   }
 
   fetchFacts = (): void => {
@@ -37,6 +46,8 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
     // to add that header to the server response, but I would rather use a proxy for this demo app
     // than spin up a free heroku dyno.
     this.setState({ facts: [], error: undefined })
+
+    if (!this.state.muted) this.audio.play()
 
     axios
       .get<CatFactsResponse>(
@@ -75,9 +86,12 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
             ))}
           </ul>
         ) : (
-          <p>Loading...</p>
+          <Spinner />
         )}
         <button onClick={this.fetchFacts}>Load facts</button>
+        <button onClick={this.toggleMute}>
+          {this.state.muted ? "Unmute audio" : "Mute audio"}
+        </button>
       </div>
     )
   }
