@@ -14,7 +14,8 @@ interface CatFactsProps {
 }
 
 interface CatFactsState {
-  facts: Partial<Fact>[]
+  facts: Fact[]
+  error?: string
 }
 
 class App extends React.Component<CatFactsProps, CatFactsState> {
@@ -35,7 +36,7 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
     // allow us to query it directly. instead, we put it through a CORS proxy. the real fix would be
     // to add that header to the server response, but I would rather use a proxy for this demo app
     // than spin up a free heroku dyno.
-    this.setState({ facts: [] })
+    this.setState({ facts: [], error: undefined })
 
     axios
       .get<CatFactsResponse>(
@@ -58,12 +59,15 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
           })
         }
       })
-      .catch(reason => console.log(reason))
+      .catch(error => this.setState({ error: error.message }))
   }
 
   render(): JSX.Element {
     return (
       <div className="App">
+        {this.state.error && (
+          <div className="alert alert-danger">{this.state.error}</div>
+        )}
         {this.state.facts.length > 0 ? (
           <ul>
             {this.state.facts.map((fact, i) => (
