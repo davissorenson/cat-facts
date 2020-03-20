@@ -111,27 +111,13 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
               </header>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              {this.state.error && (
-                <Alert variant="danger">{this.state.error}</Alert>
-              )}
-              {this.state.facts.length > 0 && (
-                <ul>
-                  {this.state.facts.map((fact, i) => (
-                    <CatFact key={i} {...fact} />
-                  ))}
-                </ul>
-              )}
-            </Col>
-          </Row>
           {this.state.loading ? (
             <Spinner />
           ) : (
-            <Row>
+            <Row className="controls">
               <Col>
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary fetch-more"
                   onClick={() => this.fetchFacts({ userTriggered: true })}
                 >
                   Load more facts
@@ -147,6 +133,20 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
               </Col>
             </Row>
           )}
+          <Row>
+            <Col>
+              {this.state.error && (
+                <Alert variant="danger">{this.state.error}</Alert>
+              )}
+              {this.state.facts.length > 0 && (
+                <ul>
+                  {this.state.facts.map((fact, i) => (
+                    <CatFact key={i} {...fact} />
+                  ))}
+                </ul>
+              )}
+            </Col>
+          </Row>
         </Container>
       </div>
     )

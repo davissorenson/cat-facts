@@ -6,6 +6,7 @@
 
 .cat-fact-text {
   display: block;
+  text-align: justify;
 }
 
 .cat-fact-text:first-letter {

@@ -2,6 +2,12 @@ body {
   font-family: Georgia, "Times New Roman", Times, serif;
 }
 
+@media (min-width: 1200px), (min-width: 992px), (min-width: 768px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
 h1#logo {
   font-family: "Viaoda Libre", cursive;
   text-align: center;
@@ -20,10 +26,19 @@ ul {
   padding: 0;
 }
 
-.btn.btn-primary {
+.row.controls {
+  margin-bottom: 20px;
+}
+
+.btn.btn-primary.fetch-more {
   border: 1px solid #212529;
   background: 0;
   color: #212529;
+  float: left;
+}
+
+.btn.btn-secondary.icon {
+  float: right;
 }
 
 .btn.btn-secondary.icon i {
