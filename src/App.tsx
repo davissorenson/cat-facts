@@ -40,6 +40,9 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
       loading: false,
       muted: this.isMuted()
     }
+
+    // let's not make anybody's ears bleed just for the sake of a 1960s batman reference
+    this.audio.volume = 0.3
   }
 
   isMuted = (): boolean => localStorage.getItem("mute") === "true"
