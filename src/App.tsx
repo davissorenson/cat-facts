@@ -30,27 +30,40 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
     this.state = {
       facts: [],
       loading: false,
-      muted: false
+      muted: this.isMuted()
     }
   }
 
+  isMuted = (): boolean => document.cookie === "muted"
+
   componentDidMount() {
-    this.fetchFacts()
+    // if a call to audio.play() cannot be traced back to a user-triggered event like a mouse click,
+    // most browsers will put an ugly error in the console, and some won't play the audio at all.
+    // componentDidMount() is not user-triggered so we tell fetchFacts to skip the audio.play() call
+    this.fetchFacts({ userTriggered: false })
   }
 
   toggleMute = (): void => {
-    this.setState({ muted: !this.state.muted })
+    // decided to put this in a cookie in case someone hates the audio and needs to refresh the page
+    // we need to change the state when we toggle the audio, otherwise react won't update the DOM
+    if (this.isMuted()) {
+      document.cookie = ""
+      this.setState({ muted: false })
+    } else {
+      document.cookie = "muted"
+      this.setState({ muted: true })
+    }
   }
 
-  fetchFacts = (): void => {
+  fetchFacts = ({ userTriggered }: { userTriggered: boolean }): void => {
+    this.setState({ facts: [], loading: true, error: undefined })
+
+    if (!this.state.muted && userTriggered) this.audio.play()
+
     // the cat facts API does not send the CORS header (Access-Control-Allow-Origin: *) that would
     // allow us to query it directly. instead, we put it through a CORS proxy. the real fix would be
     // to add that header to the server response, but I would rather use a proxy for this demo app
     // than spin up a free heroku dyno.
-    this.setState({ facts: [], loading: true, error: undefined })
-
-    if (!this.state.muted) this.audio.play()
-
     axios
       .get<CatFactsResponse>(
         "https://cors-anywhere.herokuapp.com/https://cat-fact.herokuapp.com/facts"
@@ -91,8 +104,13 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
           </ul>
         )}
         {this.state.loading && <Spinner />}
-        <button onClick={this.fetchFacts}>Load facts</button>
-        <button onClick={this.toggleMute}>
+        <button
+          className="btn btn-primary"
+          onClick={() => this.fetchFacts({ userTriggered: true })}
+        >
+          Load facts
+        </button>
+        <button className="btn btn-secondary" onClick={this.toggleMute}>
           {this.state.muted ? "Unmute audio" : "Mute audio"}
         </button>
       </div>
