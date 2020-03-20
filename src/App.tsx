@@ -111,28 +111,25 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
               </header>
             </Col>
           </Row>
-          {this.state.loading ? (
-            <Spinner />
-          ) : (
-            <Row className="controls">
-              <Col>
-                <button
-                  className="btn btn-primary fetch-more"
-                  onClick={() => this.fetchFacts({ userTriggered: true })}
-                >
-                  Load more facts
-                </button>
-                <button
-                  className="btn btn-secondary icon"
-                  onClick={this.toggleMute}
-                >
-                  <i className="material-icons">
-                    {this.state.muted ? "volume_off" : "volume_up"}
-                  </i>
-                </button>
-              </Col>
-            </Row>
-          )}
+          <Row className="controls">
+            <Col>
+              <button
+                className="btn btn-primary fetch-more"
+                onClick={() => this.fetchFacts({ userTriggered: true })}
+              >
+                Load more facts
+              </button>
+              <button
+                className="btn btn-secondary icon"
+                onClick={this.toggleMute}
+              >
+                <i className="material-icons">
+                  {this.state.muted ? "volume_off" : "volume_up"}
+                </i>
+              </button>
+            </Col>
+          </Row>
+          {this.state.loading && <Spinner />}
           <Row>
             <Col>
               {this.state.error && (
