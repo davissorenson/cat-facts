@@ -1,9 +1,16 @@
 import React from "react"
 import axios from "axios"
 
+import Alert from "react-bootstrap/Alert"
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+
 import Fact from "./interfaces/Fact"
 import { CatFact } from "./components/CatFact"
 import { Spinner } from "./components/Spinner"
+
+import "./App.css"
 
 interface CatFactsResponse {
   all: Fact[]
@@ -93,26 +100,47 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
   render(): JSX.Element {
     return (
       <div className="App">
-        {this.state.error && (
-          <div className="alert alert-danger">{this.state.error}</div>
-        )}
-        {this.state.facts.length > 0 && (
-          <ul>
-            {this.state.facts.map((fact, i) => (
-              <CatFact key={i} {...fact} />
-            ))}
-          </ul>
-        )}
-        {this.state.loading && <Spinner />}
-        <button
-          className="btn btn-primary"
-          onClick={() => this.fetchFacts({ userTriggered: true })}
-        >
-          Load facts
-        </button>
-        <button className="btn btn-secondary" onClick={this.toggleMute}>
-          {this.state.muted ? "Unmute audio" : "Mute audio"}
-        </button>
+        <Container>
+          <Row>
+            <Col>
+              <header>
+                <h1 id="logo">Cat Facts</h1>
+                <h2 id="subheading">Facts about Cats</h2>
+              </header>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {this.state.error && (
+                <Alert variant="danger">{this.state.error}</Alert>
+              )}
+              {this.state.facts.length > 0 && (
+                <ul>
+                  {this.state.facts.map((fact, i) => (
+                    <CatFact key={i} {...fact} />
+                  ))}
+                </ul>
+              )}
+            </Col>
+          </Row>
+          {this.state.loading ? (
+            <Spinner />
+          ) : (
+            <Row>
+              <Col>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => this.fetchFacts({ userTriggered: true })}
+                >
+                  Load facts
+                </button>
+                <button className="btn btn-secondary" onClick={this.toggleMute}>
+                  {this.state.muted ? "Unmute audio" : "Mute audio"}
+                </button>
+              </Col>
+            </Row>
+          )}
+        </Container>
       </div>
     )
   }

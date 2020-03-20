@@ -1,0 +1,18 @@
+.cat-fact {
+  list-style-type: none;
+  margin-bottom: 20px;
+  min-height: 48px;
+}
+
+.cat-fact-text {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  display: block;
+}
+
+.cat-fact-text:first-letter {
+  font-size: 48px;
+  line-height: 1;
+  float: left;
+  margin-right: 5px;
+  /* margin-top: 5px; */
+}
