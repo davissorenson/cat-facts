@@ -5,7 +5,6 @@
 }
 
 .cat-fact-text {
-  font-family: Georgia, "Times New Roman", Times, serif;
   display: block;
 }
 
@@ -14,5 +13,4 @@
   line-height: 1;
   float: left;
   margin-right: 5px;
-  /* margin-top: 5px; */
 }

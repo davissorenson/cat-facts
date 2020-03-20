@@ -10,6 +10,7 @@ import Fact from "./interfaces/Fact"
 import { CatFact } from "./components/CatFact"
 import { Spinner } from "./components/Spinner"
 
+import "bootstrap/dist/css/bootstrap.min.css"
 import "./App.css"
 
 interface CatFactsResponse {
@@ -41,7 +42,7 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
     }
   }
 
-  isMuted = (): boolean => document.cookie === "muted"
+  isMuted = (): boolean => localStorage.getItem("mute") === "true"
 
   componentDidMount() {
     // if a call to audio.play() cannot be traced back to a user-triggered event like a mouse click,
@@ -51,13 +52,14 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
   }
 
   toggleMute = (): void => {
-    // decided to put this in a cookie in case someone hates the audio and needs to refresh the page
-    // we need to change the state when we toggle the audio, otherwise react won't update the DOM
+    // decided to put this in localStorage in case someone hates the audio and needs to refresh the
+    // page. cookies are perhaps a better fit but the localStorage API is just so much nicer.
+    // we need to change the state when we toggle the audio, otherwise react won't update the DOM.
     if (this.isMuted()) {
-      document.cookie = ""
+      localStorage.setItem("mute", "false")
       this.setState({ muted: false })
     } else {
-      document.cookie = "muted"
+      localStorage.setItem("mute", "true")
       this.setState({ muted: true })
     }
   }
@@ -132,10 +134,15 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
                   className="btn btn-primary"
                   onClick={() => this.fetchFacts({ userTriggered: true })}
                 >
-                  Load facts
+                  Load more facts
                 </button>
-                <button className="btn btn-secondary" onClick={this.toggleMute}>
-                  {this.state.muted ? "Unmute audio" : "Mute audio"}
+                <button
+                  className="btn btn-secondary icon"
+                  onClick={this.toggleMute}
+                >
+                  <i className="material-icons">
+                    {this.state.muted ? "volume_off" : "volume_up"}
+                  </i>
                 </button>
               </Col>
             </Row>

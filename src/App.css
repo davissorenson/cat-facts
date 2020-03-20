@@ -1,3 +1,7 @@
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
 h1#logo {
   font-family: "Viaoda Libre", cursive;
   text-align: center;
@@ -10,4 +14,18 @@ h2#subheading {
   text-align: center;
   font-size: 20px;
   margin-bottom: 30px;
+}
+
+ul {
+  padding: 0;
+}
+
+.btn.btn-primary {
+  border: 1px solid #212529;
+  background: 0;
+  color: #212529;
+}
+
+.btn.btn-secondary.icon i {
+  vertical-align: middle;
 }
