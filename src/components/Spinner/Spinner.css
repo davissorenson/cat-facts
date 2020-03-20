@@ -12,7 +12,6 @@
   width: 100px;
   height: 100px;
   animation: batmanTransition 1000ms infinite ease-in-out;
-  -webkit-animation: batmanTransition 1000ms infinite ease-in-out;
   display: block;
 }
 
