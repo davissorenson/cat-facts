@@ -70,6 +70,8 @@ class App extends React.Component<CatFactsProps, CatFactsState> {
   fetchFacts = ({ userTriggered }: { userTriggered: boolean }): void => {
     this.setState({ facts: [], loading: true, error: undefined })
 
+    // since HTMLMediaElement.prototype.play is not stubbed in jsdom, when the tests are run this
+    // line causes a big red error which can safely be ignored.
     if (!this.state.muted && userTriggered) this.audio.play()
 
     // the cat facts API does not send the CORS header (Access-Control-Allow-Origin: *) that would
